@@ -2,14 +2,22 @@
 
 from abc import ABC
 from abc import abstractmethod
-from typing import Union
-import pandas as pd
 import numpy as np
 
-ArrayLike = Union[list, np.ndarray, pd.DataFrame, pd.Series]
+from ml_from_scratch.base.types import ArrayLike, ArrayOrNumber
 
 
 class Estimator(ABC):
+
+    @property
+    @abstractmethod
+    def weights(self):
+        pass
+
+    @weights.setter
+    @abstractmethod
+    def weights(self, value: ArrayLike) -> None:
+        pass
 
     def __init__(self):
         if not any(hasattr(self, attr) for attr in ['weights', 'coef', 'feature_importances']):
@@ -22,5 +30,5 @@ class Estimator(ABC):
         pass
 
     @abstractmethod
-    def predict(self, X: ArrayLike):
+    def predict(self, X: ArrayOrNumber) -> np.array:
         pass
